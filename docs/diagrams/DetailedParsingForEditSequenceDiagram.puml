@@ -1,0 +1,29 @@
+@startuml
+!include Style.puml
+'https://plantuml.com/sequence-diagram
+hide footbox
+mainframe ref
+
+box Logic LOGIC_COLOR_T1
+participant "<<Class>>\nArgumentTokenizer" as ArgumentTokenizer LOGIC_COLOR
+participant "editPersonDescriptor\n:EditPersonDescriptor" as EditPersonDescriptor LOGIC_COLOR
+participant "<<Class>>\nParserUtil" as ParserUtil LOGIC_COLOR
+end box
+box Model MODEL_COLOR_T1
+participant "jack:Name" as Jack MODEL_COLOR
+end box
+box Logic LOGIC_COLOR_T1
+participant "editCommand\n:EditCommand" as EditCommand LOGIC_COLOR
+end box
+-> ArgumentTokenizer : tokenize(n/Jack, n/, c/,\n j/, pr/,ph/, e/, a/, t/)
+<-- ArgumentTokenizer : argMultiMap
+-> EditPersonDescriptor : EditPersonDescriptor()
+<-- EditPersonDescriptor : editPersonDescriptor
+-> ParserUtil : parseName(Jack)
+ParserUtil -> Jack : Name(Jack)
+Jack --> ParserUtil : jack
+<-- ParserUtil : jack
+-> EditPersonDescriptor : setName(jack)
+-> EditCommand : EditCommand(editPersonDescriptor, personToEdit)
+<-- EditCommand :editCommand
+@enduml
